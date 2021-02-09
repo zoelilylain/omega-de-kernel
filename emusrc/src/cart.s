@@ -235,6 +235,9 @@ loadcart: @called from C:  r0=rom number, r1=emuflags
         cmp r0,#2
         cmpeq r4,#1
         moveq r5,#0 @disable SGB if GBC supported
+		
+		cmp r0,#4
+		moveq r5,#0 @disable SGB
 1:
         strb_ r4,gbcmode
         strb_ r5,sgbmode

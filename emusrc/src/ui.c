@@ -420,7 +420,7 @@ char *const paltxt[]=
 "Wario Land II",
 "Pac-in-Time"
 };
-char *const gbtxt[]={"GB","Prefer SGB over GBC","Prefer GBC over SGB","GBC+SGB"};
+char *const gbtxt[]={"GB","Prefer SGB over GBC","Prefer GBC over SGB","GBC+SGB","Prefer GBC over GB"};
 char *const clocktxt[]={"Full","Half speed"};
 char *const lcdhacktxt[]={"OFF","Low","Medium","High"};
 //char *const dmamodetxt[]={"Buffered", "Direct to VRAM", "WayForward"};
@@ -775,7 +775,7 @@ void chpalette()
 //}
 void gbtype()
 {
-	request_gb_type=(request_gb_type+1) % 4;
+	request_gb_type=(request_gb_type+1) % 5;
 }
 void gbatype()
 {

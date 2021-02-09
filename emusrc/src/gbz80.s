@@ -2831,7 +2831,7 @@ _gbamode:
 request_gba_mode:
 	.byte 0 @gbamode
 request_gb_type:
-	.byte 2 @request_gb_type_
+	.byte 4 @request_gb_type_
 novblankwait:
 	.byte 0 @novblankwait_
 
