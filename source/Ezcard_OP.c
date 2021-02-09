@@ -507,9 +507,9 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 	
 	if(get_crc32 != 0x480D0853) //fw1 
 	{
-			sprintf(msg,"check crc32 error!");		
+			sprintf(msg,"CRC32 checksum error!");		
 			DrawHZText12(msg,0,2,offset_Y+1*line_x, RGB(31,00,00),1);
-			sprintf(msg,"press [B] to return");
+			sprintf(msg,"Press (B) to return");
 			DrawHZText12(msg,0,2,offset_Y+2*line_x, 0x7FFF,1);	
 			while(1)
 			{
@@ -530,9 +530,9 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 	sprintf(msg,"Will be updated to version: V%02d",Built_in_ver);
 	DrawHZText12(msg,0,2,offset_Y+2*line_x, 0x7FFF,1);	
 
-	sprintf(msg,"Press [A] to update");
+	sprintf(msg,"Press (A) to update");
 	DrawHZText12(msg,0,2,offset_Y+4*line_x, 0x7FFF,1);	
-	sprintf(msg,"Press [B] to cancel");
+	sprintf(msg,"Press (B) to cancel");
 	DrawHZText12(msg,0,2,offset_Y+5*line_x, 0x7FFF,1);	
 	
 	while(1)
@@ -547,7 +547,7 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 			Clear(2, offset_Y+4*line_x,220,15,RGB(0,18,24),1);	
 			Clear(2, offset_Y+5*line_x,220,15,RGB(0,18,24),1);	
 		
-			sprintf(msg,"progress:");		
+			sprintf(msg,"Progress:");		
 			DrawHZText12(msg,0,2,offset_Y+6*line_x, 0x7FFF,1);
 									
 			for(offset = 0x0000;offset<newomega_top_bin_size;offset+=256)
@@ -572,7 +572,7 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 				//DEBUG_printf("count %x ",count);
 				//break;								
 			}		
-			sprintf(msg,"update finished,power off manual");
+			sprintf(msg,"Update finished, power off the console.");
 			DrawHZText12(msg,0,2,offset_Y+8*line_x, 0x7FFF,1);	
 			
 			while(1);

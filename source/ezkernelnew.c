@@ -1083,7 +1083,7 @@ void Make_recently_play_file(TCHAR* path,TCHAR* gamefilename)
 	int get=1;
 	char buf[512];	
 	
-	//res=f_chdir("/SAVER");
+	//res=f_chdir("/SYSTEM");
 	//is in SAVER
 	count = get_count();
 		
@@ -1125,7 +1125,7 @@ void Make_recently_play_file(TCHAR* path,TCHAR* gamefilename)
 	}
 	dmaCopy(buf,&(p_recently_play[0]), 512);	//write first one
 		
-	res = f_open(&gfile,"RECENT.txt", FA_WRITE | FA_OPEN_ALWAYS);
+	res = f_open(&gfile,"/SYSTEM/RECENT.txt", FA_WRITE | FA_OPEN_ALWAYS);
 	if(res == FR_OK)
 	{	
 		f_lseek(&gfile, 0x0000);
@@ -2209,9 +2209,9 @@ void Check_save_flag(void)
 			
 
 			DrawHZText12(gl_save_sav,0,47,28,gl_color_text,1);//use sure?gl_LSTART_help
-			DrawHZText12((TCHAR *)SAV_info_buffer,   20,47,40,0x7fff,1);//file name
-			DrawHZText12((TCHAR *)SAV_info_buffer+20,20,47,52,0x7fff,1);//file name
-			DrawHZText12((TCHAR *)SAV_info_buffer+40,20,47,64,0x7fff,1);//file name
+			DrawHZText12((TCHAR *)SAV_info_buffer,   20,47,40,gl_color_text,1);//file name
+			DrawHZText12((TCHAR *)SAV_info_buffer+20,20,47,52,gl_color_text,1);//file name
+			DrawHZText12((TCHAR *)SAV_info_buffer+40,20,47,64,gl_color_text,1);//file name
 			//DrawHZText12(gl_formatnor_info,5,60,90,gl_color_text,1);//use sure?
 			
 			if(gl_auto_save_sel){

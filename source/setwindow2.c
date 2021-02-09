@@ -198,7 +198,7 @@ u32 Setting_window2(void)
 			sprintf(msg,"%s",gl_lang_toggle_reset);
 			DrawHZText12(msg,0,set_offset,y_offset+line_x*5,gl_color_selected,1);
 			Draw_select_icon(x_offset,y_offset+line_x*5,(toggle_reset == 0x1));
-			ClearWithBG((u16*)gImage_SET,x_offset+15, y_offset+line_x*5, 6*6, 13, 1);
+			ClearWithBG((u16*)gImage_SET,x_offset+15, y_offset+line_x*5, 7*7, 13, 1);
 			if(gl_toggle_reset){
 				sprintf(msg,"%s",gl_enabled);
 			}
@@ -210,7 +210,7 @@ u32 Setting_window2(void)
 			sprintf(msg,"%s",gl_lang_toggle_backup);
 			DrawHZText12(msg,0,set_offset,y_offset+line_x*6,gl_color_selected,1);
 			Draw_select_icon(x_offset,y_offset+line_x*6,(toggle_backup == 0x1));
-			ClearWithBG((u16*)gImage_SET,x_offset+15, y_offset+line_x*6, 6*6, 13, 1);
+			ClearWithBG((u16*)gImage_SET,x_offset+15, y_offset+line_x*6, 7*7, 13, 1);
 			if(gl_toggle_backup){
 				sprintf(msg,"%s",gl_enabled);
 			}
