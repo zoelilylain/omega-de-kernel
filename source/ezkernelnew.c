@@ -466,7 +466,7 @@ void Show_ICON_filename_SD(u32 show_offset,u32 file_select,u32 haveThumbnail)
 			16,
 			14,
 			1,
-			gl_color_text,
+			0x0000,
 			1);
 
 		DrawHZText12(pFilename_buffer[offset+line-need_show_folder].filename, char_num, 1+16, showy, name_color,1);
@@ -692,7 +692,7 @@ void Show_ICON_filename_NOR(u32 show_offset,u32 file_select)
 			16,
 			14,
 			1,
-			gl_color_text,
+			0x0000,
 			1);
 
 		DrawHZText12(pNorFS[show_offset+line].filename, char_num, 1+16, y_offset + line*14, name_color,1);	
@@ -912,7 +912,7 @@ void Show_MENU(u32 menu_select,PAGE_NUM page,u32 havecht,u32 Save_num,u32 is_men
 			if(line == 5)//cheat
 			{
 				sprintf(msg,"%s(%ld)",gl_rom_menu[line],gl_cheat_count);
-				DrawHZText12(msg, 32, 647, y_offset + line*14, name_color,1);
+				DrawHZText12(msg, 32, 47, y_offset + line*14, name_color,1);
 			}
 			else{
 				DrawHZText12(gl_rom_menu[line], 32, 47, y_offset + line*14, name_color,1);
@@ -1600,6 +1600,16 @@ void CheckSwitch(void)
 	{
 		gl_SD_B = 0x0;
 	}	
+	gl_toggle_reset = Read_SET_info(assress_toggle_reset);
+	if( (gl_toggle_reset != 0x0) && (gl_toggle_reset != 0x1))
+	{
+		gl_toggle_reset = 0x0;
+	}	
+	gl_toggle_backup = Read_SET_info(assress_toggle_backup);
+	if( (gl_toggle_backup != 0x0) && (gl_toggle_backup != 0x1))
+	{
+		gl_toggle_backup = 0x0;
+	}	
 
 	u16 led_status = (gl_led_open_sel<<7) | (gl_Breathing_R<<5) | (gl_Breathing_G<<4) | (gl_Breathing_B<<3) | (gl_SD_R<<2) | (gl_SD_G<<1) | (gl_SD_B) ;
 	Set_LED_control(led_status);
@@ -2192,14 +2202,14 @@ void Check_save_flag(void)
 			DrawPic((u16*)gImage_MENU, 36, 25, 168, 110, 1, 0, 1);//show menu pic		
 			
 
-			DrawHZText12(gl_save_sav,0,60,28,gl_color_text,1);//use sure?gl_LSTART_help
-			DrawHZText12((TCHAR *)SAV_info_buffer,   20,60,40,0x7fff,1);//file name
-			DrawHZText12((TCHAR *)SAV_info_buffer+20,20,60,52,0x7fff,1);//file name
-			DrawHZText12((TCHAR *)SAV_info_buffer+40,20,60,64,0x7fff,1);//file name
+			DrawHZText12(gl_save_sav,0,47,28,gl_color_text,1);//use sure?gl_LSTART_help
+			DrawHZText12((TCHAR *)SAV_info_buffer,   20,47,40,0x7fff,1);//file name
+			DrawHZText12((TCHAR *)SAV_info_buffer+20,20,47,52,0x7fff,1);//file name
+			DrawHZText12((TCHAR *)SAV_info_buffer+40,20,47,64,0x7fff,1);//file name
 			//DrawHZText12(gl_formatnor_info,5,60,90,gl_color_text,1);//use sure?
 			
 			if(gl_auto_save_sel){
-					DrawHZText12(gl_save_ing,0,60,88,gl_color_text,1);//use sure?gl_LSTART_help
+					DrawHZText12(gl_save_ing,0,47,88,gl_color_text,1);//use sure?gl_LSTART_help
 					f_mkdir(SAVER_FOLDER);//"/SAVER"
 					f_chdir(SAVER_FOLDER); 
 					Save_savefile((TCHAR *)SAV_info_buffer,savefilesize);			
@@ -2898,7 +2908,12 @@ void Boot_NOR_game(u32 show_offset,	u32 file_select,u32 key_L)
 	FAT_table_buffer[0x1F4/4] = SET_PARAMETER_MODE;
 	Send_FATbuffer(FAT_table_buffer,1); //only RTS FAT and some parameter
 	//wait_btn();
-	SetRompageWithHardReset(pNorFS[show_offset+file_select].rompage,key_L);
+	u8 reset_choice;
+	if(key_L)
+		reset_choice = !gl_toggle_reset;
+	else
+		reset_choice = gl_toggle_reset;
+	SetRompageWithHardReset(pNorFS[show_offset+file_select].rompage,reset_choice);
 	while(1);	
 }
 //---------------------------------------------------------------
@@ -3303,9 +3318,10 @@ load_file:
 		Send_FATbuffer(FAT_table_buffer,1);
 							
 		res=LoadEMU2PSRAM(pfilename,is_EMU);
-			int bootmode=(is_EMU > 3) ?
-					((is_EMU == 6) ? 2
-				       : ((is_EMU == 7) ? 4 : 3)) : gl_toggle_reset;
+			int bootmode = ((is_EMU > 3) && (is_EMU < 9)) ?
+				((is_EMU == 6) ? 2
+					: (is_EMU == 7) ? 4
+					: ((is_EMU == 8) ? 5 : 3)) : gl_toggle_reset;
 		SetRompageWithHardReset(0x200,bootmode);
 		while(1);
 	}		
@@ -3325,15 +3341,22 @@ load_file:
 			Show_error_num(error_num);
 			return 0;
 		}
+
+	u8 reset_choice;
 		
   	switch(MENU_line){
   		case 0://DirectPSRAM CLEAN BOOT
+
   			ShowbootProgress(gl_loading_game); 			
 
 				Send_FATbuffer(FAT_table_buffer,0);
 				GBApatch_Cleanrom(PSRAMBase_S98,gamefilesize);
 				//wait_btn();
-				SetRompageWithHardReset(0x200,key_L);
+			if(key_L)
+				reset_choice = !gl_toggle_reset;
+			else
+				reset_choice = gl_toggle_reset;
+				SetRompageWithHardReset(0x200,reset_choice);
 	  		break;
 	    case 1://PSRAM BOOT WITH ADDON
 	    	ShowbootProgress(gl_loading_game);
@@ -3390,7 +3413,11 @@ load_file:
 					Send_FATbuffer(FAT_table_buffer,0);//Loading rom		
 				}
 				//wait_btn();	
-	    	SetRompageWithHardReset(0x200,key_L);
+			if(key_L)
+				reset_choice = !gl_toggle_reset;
+			else
+				reset_choice = gl_toggle_reset;
+	    	SetRompageWithHardReset(0x200,reset_choice);
 	    	break;
 	    case 2://WRITE TO NOR CLEAN    	
 	    	f_chdir(currentpath);//return to game folder

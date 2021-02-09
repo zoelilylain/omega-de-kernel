@@ -76,6 +76,9 @@ char* gl_ingameRTC;
 char* gl_ingameRTC_open;
 char* gl_ingameRTC_close;
 
+char* gl_lang_toggle_reset;
+char* gl_lang_toggle_backup;
+
 char* gl_error_0;
 char* gl_error_1;
 char* gl_error_2;
@@ -187,6 +190,9 @@ const char zh_ingameRTC[]=" 游戏时钟";
 //const char zh_offRTC_powersave[]=" ";
 const char zh_ingameRTC_open[]="打开";
 const char zh_ingameRTC_close[]="关闭";//TURNOFF TO POWER SAVE
+
+const char zh_lang_toggle_reset[]="硬重置";
+const char zh_lang_toggle_backup[]="保存备份";
 
 const char zh_error_0[]="文件夹错误";
 const char zh_error_1[]="文件错误";
@@ -310,6 +316,9 @@ const char en_ingameRTC[]=" Game RTC";
 const char en_ingameRTC_open[]="Open";
 const char en_ingameRTC_close[]="Close";//TURNOFF TO POWER SAVE
 
+const char en_lang_toggle_reset[]="HardReset";
+const char en_lang_toggle_backup[]="Backup";
+
 const char en_error_0[]="Folder error";
 const char en_error_1[]="File error";
 const char en_error_2[]="SAVER error";
@@ -327,7 +336,7 @@ const char en_auto_save[]="Auto save";
 const char en_modeB_INITstr[]="   Mode B";
 const char en_modeB_RUMBLE[]="Rumble";
 const char en_modeB_RAM[]="RAM";
-const char en_modeB_LINK[]="Link";
+const char en_modeB_LINK[]="Cart";
 
 const char en_led[]="      LED";
 const char en_led_open[]="Enable LED";
@@ -431,6 +440,9 @@ void LoadChinese(void)
 	//gl_offRTC_powersave = (char*)zh_offRTC_powersave;
 	gl_ingameRTC_open = (char*)zh_ingameRTC_open;
 	gl_ingameRTC_close = (char*)zh_ingameRTC_close;
+	
+	gl_lang_toggle_reset = (char*)zh_lang_toggle_reset;
+	gl_lang_toggle_backup = (char*)zh_lang_toggle_backup;
 	
 	gl_error_0 = (char*)zh_error_0;
 	gl_error_1 = (char*)zh_error_1;
@@ -543,6 +555,9 @@ void LoadEnglish(void)
 	//gl_offRTC_powersave = (char*)en_offRTC_powersave;
 	gl_ingameRTC_open = (char*)en_ingameRTC_open;
 	gl_ingameRTC_close = (char*)en_ingameRTC_close;
+	
+	gl_lang_toggle_reset = (char*)en_lang_toggle_reset;
+	gl_lang_toggle_backup = (char*)en_lang_toggle_backup;
 	
 	gl_error_0 = (char*)en_error_0;
 	gl_error_1 = (char*)en_error_1;

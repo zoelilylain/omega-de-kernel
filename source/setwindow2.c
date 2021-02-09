@@ -19,6 +19,9 @@ u16 Breathing_R;
 u16 Breathing_G;
 u16 Breathing_B;
 
+u16 toggle_reset;
+u16 toggle_backup;
+
 u16 SD_R;
 u16 SD_G;
 u16 SD_B;
@@ -30,6 +33,9 @@ extern u16 gl_led_open_sel;
 extern u16 gl_Breathing_R;
 extern u16 gl_Breathing_G;
 extern u16 gl_Breathing_B;
+
+extern u16 gl_toggle_backup;
+extern u16 gl_toggle_reset;
 
 extern u16 gl_SD_R;
 extern u16 gl_SD_G;
@@ -52,6 +58,8 @@ extern void CheckSwitch(void);
 //---------------------------------------------------------------------------------
 u32 Setting_window2(void)
 {
+
+
 	u16 keys;
 	u32 line;
 	u32 select;
@@ -72,6 +80,8 @@ u32 Setting_window2(void)
 	u8 line_total;
 	u8 auto_save_pos = 1;			
 	u8 led_pos = 1; 
+	u8 reset_pos = 1;
+	u8 backup_pos = 1;
 
 	u8 ModeB_pos = 3;
 	
@@ -105,6 +115,9 @@ u32 Setting_window2(void)
 	SD_R = gl_SD_R;
 	SD_G = gl_SD_G;
 	SD_B = gl_SD_B;
+
+	toggle_reset = gl_toggle_reset;
+	toggle_backup = gl_toggle_backup;
 	
 	while(1)
 	{
@@ -174,13 +187,26 @@ u32 Setting_window2(void)
 				Draw_select_icon(x_offset+5*6+5*6+15+15,y_offset+line_x*4,(SD_B == 0x1));
 				sprintf(msg,"%s","B");
 				DrawHZText12(msg,0,x_offset+5*6+5*6+15+15+15,y_offset+line_x*4,(led_pos==7)?gl_color_selected:gl_color_text,1);	
-				line_total = 3;			
+				line_total = 5;			
 			}
 			else{
 				
 				ClearWithBG((u16*)gImage_SET2,0, y_offset+line_x*3, 240, 160-(y_offset+line_x*2), 1);
-				line_total = 3;	
+				line_total = 5;	
 			}
+
+			sprintf(msg,"%s",gl_lang_toggle_reset);
+			DrawHZText12(msg,0,set_offset,y_offset+line_x*5,gl_color_selected,1);
+			Draw_select_icon(x_offset,y_offset+line_x*5,(toggle_reset == 0x1));
+			sprintf(msg,"%s",gl_auto_save);
+			DrawHZText12(msg,0,x_offset+15,y_offset+line_x*5,(reset_pos==0)?gl_color_selected:gl_color_text,1);	
+
+			sprintf(msg,"%s",gl_lang_toggle_backup);
+			DrawHZText12(msg,0,set_offset,y_offset+line_x*6,gl_color_selected,1);
+			Draw_select_icon(x_offset,y_offset+line_x*6,(toggle_backup == 0x1));
+			sprintf(msg,"%s",gl_auto_save);
+			DrawHZText12(msg,0,x_offset+15,y_offset+line_x*6,(backup_pos==0)?gl_color_selected:gl_color_text,1);		
+
 			u32 offsety;
 
 			for(line=0;line<line_total;line++)
@@ -192,7 +218,11 @@ u32 Setting_window2(void)
 					else if((line== select) && (1== select) && (ModeB_pos==3)) 
 						clean_color = gl_color_btn_clean;	
 					else if((line== select) && (2== select) && (led_pos==1)) 
-						clean_color = gl_color_btn_clean;							
+						clean_color = gl_color_btn_clean;		
+					else if((line== select) && (3== select) && (reset_pos==1)) 
+						clean_color = gl_color_btn_clean;		
+					else if((line== select) && (4== select) && (backup_pos==1)) 
+						clean_color = gl_color_btn_clean;					
 					else 
 						clean_color = gl_color_MENU_btn;
 				}		
@@ -204,7 +234,7 @@ u32 Setting_window2(void)
 						clean_color = gl_color_MENU_btn;
 				}	
 				offsety = y_offset + line*line_x;
-				//if(line>1) offsety += line_x; 
+				if(line>2) offsety += line_x*2; 
 					
 				Clear(202,offsety-2 ,30,14,clean_color,1);	
 				
@@ -301,6 +331,14 @@ u32 Setting_window2(void)
 							else if((led_pos<7) && (led_pos>1))
 								led_pos ++; 	
 						}
+						if(select == 3)
+						{
+							reset_pos = 1;
+						}
+						if(select == 4)
+						{
+							backup_pos = 1;
+						}
 						re_show = 1;	
 					} else if(keys & KEY_LEFT) {
 						
@@ -321,6 +359,14 @@ u32 Setting_window2(void)
 								led_pos--;
 							else if(led_pos>2)
 								led_pos--;						
+						}
+						else if(select ==3)
+						{
+							reset_pos = 0;
+						}
+						else if(select ==4)
+						{
+							backup_pos = 0;
 						}
 						re_show = 1;	
 					} 
@@ -383,6 +429,42 @@ u32 Setting_window2(void)
 								case 7:SD_B = !SD_B;break;	
 							}	
 						}
+						else if(select == 3) 
+						{
+							switch(reset_pos)
+							{
+								case 0:toggle_reset = !toggle_reset;break;
+								case 1:
+									{
+										save_set2_info();
+										Set_OK = 0;	
+										gl_toggle_reset = Read_SET_info(assress_toggle_reset);
+										if( (gl_toggle_reset != 0x0) && (gl_toggle_reset != 0x1))
+										{
+											gl_toggle_reset = 0x1;
+										}
+										break;							
+									}
+							}	
+						}
+						else if(select == 4) 
+						{
+							switch(backup_pos)
+							{
+								case 0:toggle_backup = !toggle_backup;break;
+								case 1:
+									{
+										save_set2_info();
+										Set_OK = 0;	
+										gl_toggle_backup = Read_SET_info(assress_toggle_backup);
+										if( (gl_toggle_backup != 0x0) && (gl_toggle_backup != 0x1))
+										{
+											gl_toggle_backup = 0x1;
+										}
+										break;							
+									}
+							}	
+						}
 						re_show = 1;
 					}
 				break	;			
@@ -409,7 +491,9 @@ void save_set2_info(void)
 	SET_info_buffer[assress_SD_G] = SD_G;
 	SET_info_buffer[assress_SD_B] = SD_B;
 
-	
+	SET_info_buffer[assress_toggle_backup] = toggle_backup;
+	SET_info_buffer[assress_toggle_reset] = toggle_reset;
+
 	//save to nor 
 	Save_SET_info(SET_info_buffer,0x200);
 	u16 led_status = (led_open_sel<<7) | (Breathing_R<<5) | (Breathing_G<<4) | (Breathing_B<<3) | (SD_R<<2) | (SD_G<<1) | (SD_B) ;

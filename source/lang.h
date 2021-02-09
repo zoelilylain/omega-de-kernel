@@ -73,6 +73,9 @@ extern char* gl_ingameRTC;
 extern char* gl_ingameRTC_open;
 extern char* gl_ingameRTC_close;
 
+extern char* gl_lang_toggle_reset;
+extern char* gl_lang_toggle_backup;
+
 extern char* gl_error_0;
 extern char* gl_error_1;
 extern char* gl_error_2;

@@ -75,6 +75,8 @@
 #define assress_SD_R 20
 #define assress_SD_G 21
 #define assress_SD_B 22
+#define assress_toggle_reset 23
+#define assress_toggle_backup 24
 
 #define assress_saveMODE 64
 #define assress_max 65
