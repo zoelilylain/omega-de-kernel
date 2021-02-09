@@ -110,6 +110,12 @@ extern char* gl_file_noexist;
 extern char**  	gl_rom_menu;
 extern char**   gl_nor_op;
 
+extern char* gl_enabled;
+extern char* gl_disabled;
+
+extern char* gl_copying_data;
+extern char* gl_generating_emu;
+
 // ASCII Font
 extern unsigned char* ASC_DATA;
 

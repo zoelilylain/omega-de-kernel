@@ -21,7 +21,7 @@ extern u32 key_L;
 extern FIL gfile;
 // --------------------------------------------------------------------
 extern void HardReset(void);
-extern void SoftReset_now(u8 a, u8 b);
+extern void SoftReset_now(void);
 
 // --------------------------------------------------------------------
 void IWRAM_CODE SetSDControl(u16  control)
@@ -257,10 +257,10 @@ void IWRAM_CODE SetRompageWithHardReset(u16 page,u32 bootmode)
 {
 	Set_RTC_status(gl_ingame_RTC_open_status);
 	SetRompage(page);
-
+	RegisterRamReset(RESET_PALETTE| RESET_VRAM|RESET_OAM |RESET_SIO | RESET_SOUND | RESET_OTHER);
 	if(bootmode==1) {
 		if(key_L)
-			SoftReset_now(0,0xff);
+			SoftReset_now();
 		else
 			HardReset();
 	} else if (bootmode==2 || bootmode==4) {
@@ -284,10 +284,10 @@ void IWRAM_CODE SetRompageWithHardReset(u16 page,u32 bootmode)
 		for(i=0;i<0xfefe;i++)
 			p[i]=0;
 		//SoftReset_now(0,0x100);
-		SoftReset_now(0,0xfe);
+		SoftReset_now();
 	}
 	else {
-		SoftReset_now(0,0xff);
+		SoftReset_now();
 	}
 }
 // --------------------------------------------------------------------

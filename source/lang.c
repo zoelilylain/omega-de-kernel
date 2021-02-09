@@ -115,6 +115,9 @@ char**  gl_nor_op;
 
 char* gl_copying_data;
 
+char* gl_enabled;
+char* gl_disabled;
+
 unsigned char* ASC_DATA;
 
 
@@ -154,7 +157,7 @@ const char zh_set_btn[]="设置";
 const char zh_ok_btn[]="保存";
 const char zh_formatnor_info[]="确定?大约4分钟";
 
-const char zh_theme_credit[]="Simple主题 v3.42";
+const char zh_theme_credit[]="Simple主题 v1.00_RC1";
 const char zh_theme_credit2[]="by Sterophonick";
 
 const char zh_check_sav[]="检查SAV文件";
@@ -226,6 +229,9 @@ const char zh_file_noexist[]="找不到存档文件";
 const char zh_copying_data[]="复制ROM...";
 const char zh_generating_emu[]="生成模拟器...";
 
+const char zh_enabled[]="已启用";
+const char zh_disabled[]="残障人士";
+
 const char *zh_rom_menu[]={
 	"直接启动",
 	"启动带辅助",
@@ -280,7 +286,7 @@ const char en_ok_btn[]=" OK";
 const char en_formatnor_info1[]="Are you sure?";
 const char en_formatnor_info2[]="This will take a while.";
 
-const char en_theme_credit[]="SimpleDE v3.42 by";
+const char en_theme_credit[]="SimpleDE v1.00_RC1 by";
 const char en_theme_credit2[]="Sterophonick.";
 
 const char en_check_sav[]="Checking Save Data...";
@@ -351,6 +357,9 @@ const char en_file_noexist[]="Cnt not find sav file";
 
 const char en_copying_data[]="Copying ROM...";
 const char en_generating_emu[]="Generating Emulator...";
+
+const char en_enabled[]="Enabled";
+const char en_disabled[]="Disabled";
 
 const char *en_rom_menu[] = {
 	"Clean boot",
@@ -480,6 +489,9 @@ void LoadChinese(void)
 	gl_copying_data = (char**)zh_copying_data;
 
 	gl_generating_emu = (char**)zh_generating_emu;
+	
+	gl_enabled = (char*)zh_enabled;
+	gl_disabled = (char*)zh_disabled;
 
 	// For Chinese, Use old font
 	ASC_DATA = ASC_DATA_OLD;
@@ -594,6 +606,9 @@ void LoadEnglish(void)
 	gl_copying_data = (char**)en_copying_data;
 	
 	gl_generating_emu = (char**)en_generating_emu;
+	
+	gl_enabled = (char*)en_enabled;
+	gl_disabled = (char*)en_disabled;
 
 	// For English, Use new font
 	ASC_DATA = ASC_DATA_NEW;

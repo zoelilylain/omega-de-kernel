@@ -213,10 +213,10 @@ u32 Setting_window(void)
 				//sprintf(msg,"%s",gl_offRTC_powersave);
 				ClearWithBG((u16*)gImage_SET,x_offset+15, y_offset+line_x*7, 6*6, 13, 1);
 				if(gl_ingame_RTC_open_status){
-					sprintf(msg,"%s",gl_ingameRTC_open);
+					sprintf(msg,"%s",gl_enabled);
 				}
 				else {
-					sprintf(msg,"%s",gl_ingameRTC_close);
+					sprintf(msg,"%s",gl_disabled);
 				}			
 				DrawHZText12(msg,0,x_offset+15,y_offset+line_x*7,(RTC_pos==0)?gl_color_selected:gl_color_text,1);	
 	
