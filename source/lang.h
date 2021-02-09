@@ -8,6 +8,9 @@ extern char* gl_init_ok;
 extern char* gl_Loading;
 extern char* gl_file_overflow;
 
+extern char* gl_theme_credit;
+extern char* gl_theme_credit2;
+
 extern char* gl_menu_btn;
 extern char* gl_lastest_game;
 
@@ -37,7 +40,11 @@ extern char* gl_zh_lang;
 extern char* gl_set_btn;
 extern char* gl_ok_btn;
 
-extern char* gl_formatnor_info;
+extern char* gl_formatnor_info1;
+extern char* gl_formatnor_info2;
+
+extern char* temp;
+
 
 extern char* gl_check_sav;
 extern char* gl_make_sav;
@@ -99,6 +106,9 @@ extern char* gl_file_noexist;
 
 extern char**  	gl_rom_menu;
 extern char**   gl_nor_op;
+
+// ASCII Font
+extern unsigned char* ASC_DATA;
 
 void LoadEnglish(void);
 void LoadChinese(void);

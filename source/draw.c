@@ -7,9 +7,9 @@
 
 #include "ez_define.h"
 #include "hzk12.h"
-#include "asc126.h"
 #include "ezkernel.h"
 #include "draw.h"
+#include "lang.h"
 
 int current_y = 1;
 extern u8 pReadCache [MAX_pReadCache_size]EWRAM_BSS;

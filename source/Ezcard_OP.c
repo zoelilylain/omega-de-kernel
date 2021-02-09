@@ -16,6 +16,8 @@
 
 extern u32 FAT_table_buffer[FAT_table_size/4]EWRAM_BSS;
 
+extern u32 key_L;
+
 extern FIL gfile;
 // --------------------------------------------------------------------
 extern void HardReset(void);
@@ -257,7 +259,10 @@ void IWRAM_CODE SetRompageWithHardReset(u16 page,u32 bootmode)
 	SetRompage(page);
 
 	if(bootmode==1) {
-		HardReset();
+		if(key_L)
+			SoftReset_now(0,0xff);
+		else
+			HardReset();
 	} else if (bootmode==2 || bootmode==4) {
 		int i;
 		//Clear exram up to pogoshell arg

@@ -86,7 +86,7 @@ extern const unsigned char gImage_English_manual[9800]__attribute__((aligned(4))
 extern const unsigned char gImage_Chinese_manual[9800]__attribute__((aligned(4)));
 extern const unsigned char gImage_HELP[76800]__attribute__((aligned(4)));
 extern const unsigned char gImage_icons[1344]__attribute__((aligned(4)));
-extern const unsigned char gImage_MENU[28160]__attribute__((aligned(4)));
+extern const unsigned char gImage_MENU[36960]__attribute__((aligned(4)));
 extern const unsigned char gImage_NOR[76800]__attribute__((aligned(4)));
 extern const unsigned char gImage_RECENTLY[76800]__attribute__((aligned(4)));
 extern const unsigned char gImage_SD[76800]__attribute__((aligned(4)));
