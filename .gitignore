@@ -1,3 +1,4 @@
 emusrc/build
 *.gba
 *.elf
+build

@@ -11,8 +11,6 @@
 #include "draw.h"
 #include "Ezcard_OP.h"
 
-
-
 u16 auto_save_sel;
 u16 ModeB_INIT;
 u16 led_open_sel;

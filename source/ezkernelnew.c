@@ -24,51 +24,59 @@
 #include "helpwindow.h"
 
 #ifdef DARK
-#include "images/dark/SD.h"
-#include "images/dark/NOR.h"
-#include "images/dark/SET.h"
-#include "images/dark/HELP.h"
-#include "images/dark/RECENTLY.h"
-#include "images/dark/MENU.h"
-#include "images/dark/icon_chip.h"
-#include "images/dark/icons.h"
+#include "dark/SD.h"
+#include "dark/NOR.h"
+#include "dark/SET.h"
+#include "dark/SET2.h"
+#include "dark/HELP.h"
+#include "dark/RECENTLY.h"
+#include "dark/MENU.h"
+#include "dark/icon_chip.h"
 #else
-#include "images/light/SD.h"
-#include "images/light/NOR.h"
-#include "images/light/SET.h"
-#include "images/light/HELP.h"
-#include "images/light/RECENTLY.h"
-#include "images/light/MENU.h"
-#include "images/light/icon_chip.h"
-#include "images/light/icons.h"
+#include "light/SD.h"
+#include "light/NOR.h"
+#include "light/SET.h"
+#include "light/SET2.h"
+#include "light/HELP.h"
+#include "light/RECENTLY.h"
+#include "light/MENU.h"
+#include "light/icon_chip.h"
 #endif
 
-#include "images/icon_CV.h"
-#include "images/icon_MSX.h"
-#include "images/icon_GG.h"
-#include "images/icon_SMS.h"
-#include "images/icon_SV.h"
-#include "images/icon_a26.h"
-#include "images/nor_icon.h"
-#include "images/icon_GBC.h"
-#include "images/icon_WS.h"
-#include "images/icon_FC.h"
-#include "images/icon_GB.h"
-#include "images/icon_SG.h"
-#include "images/icon_NG.h"
-#include "images/icon_IMG.h"
-#include "images/icon_TXT.h"
-#include "images/icon_PCE.h"
-#include "images/icon_ZX.h"
-#include "images/icon_o2.h"
-#include "images/icon_pokem.h"
-#include "images/icon_vmu.h"
-#include "images/icon_wav.h"
-#include "images/icon_arc.h"
-#include "images/icon_sc3000.h"
-#include "images/icon_EXE.h"
-#include "images/icon_mod.h"
-#include "images/NOTFOUND.h"
+
+#include "icon_CV.h"
+#include "icon_MSX.h"
+#include "icon_GG.h"
+#include "icon_SMS.h"
+#include "icon_SV.h"
+#include "icon_a26.h"
+#include "icon_GBC.h"
+#include "icon_WS.h"
+#include "icon_FC.h"
+#include "icon_GB.h"
+#include "icon_SG.h"
+#include "icon_NG.h"
+#include "icon_IMG.h"
+#include "icon_TXT.h"
+#include "icon_PCE.h"
+#include "icon_ZX.h"
+#include "icon_o2.h"
+#include "icon_pokem.h"
+#include "icon_vmu.h"
+#include "icon_wav.h"
+#include "icon_arc.h"
+#include "icon_sc3000.h"
+#include "icon_EXE.h"
+#include "icon_mod.h"
+#include "icon_gba.h"
+#include "icon_folder.h"
+#include "icon_other.h"
+#include "Chinese_manual.h"
+#include "English_manual.h"
+
+#include "nor_icon.h"
+#include "NOTFOUND.h"
+#include "splash.h"
 
 
 #include "goomba.h"
@@ -89,6 +97,8 @@ char p_recently_play[10][512]EWRAM_BSS;
 TCHAR currentpath[MAX_path_len];//
 TCHAR currentpath_temp[MAX_path_len];
 TCHAR current_filename[200];
+
+TCHAR plugin[100]; //pogoshell plugin
 
 u8 p_folder_select_show_offset[100]EWRAM_BSS;
 u8 p_folder_select_file_select[100]EWRAM_BSS;
@@ -136,16 +146,22 @@ u16 gl_SD_B;
 
 
 //----------------------------------------
-/*u16 gl_color_selected 		= RGB(00,20,26);
-u16 gl_color_text 				= RGB(31,31,31);
-u16 gl_color_selectBG_sd 	= RGB(00,00,31);
-u16 gl_color_selectBG_nor = RGB(10,10,10);
-u16 gl_color_MENU_btn			= RGB(20,20,20);
-u16 gl_color_cheat_count  = RGB(00,31,00);
-u16 gl_color_cheat_black  = RGB(00,00,00);
-u16 gl_color_NORFULL      = RGB(31,00,00);
-u16 gl_color_btn_clean    = RGB(00,00,31);
-*/
+u16 gl_color_selected = RGB(00, 20, 26);
+#ifdef DARK
+u16 gl_color_text = RGB(31, 31, 31);
+u16 gl_color_selectBG_sd = RGB(15, 15, 31);
+u16 gl_color_selectBG_nor = RGB(18, 3, 3);
+u16 gl_color_MENU_btn = RGB(00, 19, 29);
+#else
+u16 gl_color_text = RGB(00, 00, 00);
+u16 gl_color_selectBG_sd = RGB(19, 19, 31);
+u16 gl_color_selectBG_nor = RGB(15, 28, 7);
+u16 gl_color_MENU_btn = RGB(23, 23, 23);
+#endif
+u16 gl_color_cheat_count = RGB(00, 31, 00);
+u16 gl_color_cheat_black = RGB(00, 00, 00);
+u16 gl_color_NORFULL = RGB(31, 00, 00);
+u16 gl_color_btn_clean = RGB(8, 8, 31);
 u16 SAV_info_buffer [0x200]EWRAM_BSS;
 //******************************************************************************
 void delay(u32 R0)
@@ -291,6 +307,9 @@ void Show_ICON_filename_SD(u32 show_offset,u32 file_select,u32 haveThumbnail)
 		{
 			icon = (u16*)(gImage_icon_gba/*gImage_icons+1*16*14*2*/);
 		}	
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "agb")) { //GBA
+			icon = (u16*)(gImage_icons + 1 * 16 * 14 * 2);
+		}
 		else if(!strcasecmp(&(pfilename[strlen8-3]), "gbc"))
 		{
 			icon = (u16*)(gImage_icon_GB);
@@ -302,6 +321,135 @@ void Show_ICON_filename_SD(u32 show_offset,u32 file_select,u32 haveThumbnail)
 		else if(!strcasecmp(&(pfilename[strlen8-3]), "nes"))
 		{
 			icon = (u16*)(gImage_icon_FC);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "bin")) { //.bin file
+			icon = (u16*)(gImage_icon_EXE);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "mb")) { //PogoShell Plugin/Multiboot image
+			icon = (u16*)(gImage_icon_EXE);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "mbz")) { //Compressed PogoShell Plugin
+			icon = (u16*)(gImage_icon_EXE);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 4]), "mbap")) { //Compressed PogoShell Plugin
+			icon = (u16*)(gImage_icon_EXE);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "sms")) { //Master System
+			icon = (u16*)(gImage_icon_SMS);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "gg")) { //Game Gear
+			icon = (u16*)(gImage_icon_GG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "sg")) { //SG-1000
+			icon = (u16*)(gImage_icon_SG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "ngp")) { //Neo Geo Pocket
+			icon = (u16*)(gImage_icon_NG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 4]), "ngpc")) { //Neo Geo Pocket Color
+			icon = (u16*)(gImage_icon_NG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "jpg")) { //JPEG Image
+			icon = (u16*)(gImage_icon_IMG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 4]), "jpeg")) { //JPEG Image
+			icon = (u16*)(gImage_icon_IMG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "bmp")) { //BMP Image
+			icon = (u16*)(gImage_icon_IMG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "txt")) { //Text Document
+			icon = (u16*)(gImage_icon_TXT);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "esv")) { //Fixes the bug with esv files looking like watara supervision
+			icon = (u16*)(gImage_icons + 2 * 16 * 14 * 2);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "sv")) { //Watara Supervision
+			icon = (u16*)(gImage_icon_SV);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "ws")) { //Wonderswan
+			icon = (u16*)(gImage_icon_WS);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "wsc")) { //Wonderswan Color
+			icon = (u16*)(gImage_icon_WS);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "col")) { //ColecoVision
+			icon = (u16*)(gImage_icon_CV);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "rom")) { //MSX-1
+			icon = (u16*)(gImage_icon_MSX);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "pce")) { //PC-Engine
+			icon = (u16*)(gImage_icon_PCE);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "z80")) { //Sinclair ZX-Spectrum (Z80)
+			icon = (u16*)(gImage_icon_ZX);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "o2")) { //Magnavox Odyssey2 (No emu yet, but I'm eventually going to have a finished one. :D)
+			icon = (u16*)(gImage_icon_o2);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "c8")) { //Chip-8
+			icon = (u16*)(gImage_icon_chip);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "ch8")) { //Chip-8
+			icon = (u16*)(gImage_icon_chip);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "min")) { //Pokemon Mini (No Emu yet)
+			icon = (u16*)(gImage_icon_pokem);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "dci")) { //Visual Memory Unit (No Emu yet, but I will make one at some point)
+			icon = (u16*)(gImage_icon_vmu);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "vmi")) { //Visual Memory Unit (No Emu yet, but I will make one at some point)
+			icon = (u16*)(gImage_icon_vmu);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "mid")) { //MIDI Sequence
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "wav")) { //Wave Sound
+			icon = (u16*)(gImage_icon_wav);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "nsf")) { //NSF sound file
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "k3m")) { //Krawall Advance Module
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "mod")) { //Protracker mod file
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "pcx")) { //ZSoft Paintbrush PCX image
+			icon = (u16*)(gImage_icon_IMG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "vgm")) { //SMS/GG VGM Rip
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "cwz")) { //Unknown Music file, contained in a package for PogoShell 1.2
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "sb")) { //MaxMod SoundBank
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "ap")) { //aPlib compressed Mode 3 Bitmap
+			icon = (u16*)(gImage_icon_IMG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "lz")) { //LZ77 Compressed Mode 3 Bitmap
+			icon = (u16*)(gImage_icon_IMG);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "bgf")) { //BoyScout module
+			icon = (u16*)(gImage_icon_mod);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "arc")) { //4kb Arcadia 2001 ROM File
+			icon = (u16*)(gImage_icon_arc);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "a26")) { //Atari 2600 ROM file (emu indev)
+			icon = (u16*)(gImage_icon_a26);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "sc")) { //Sega SC-3000 ROM File
+			icon = (u16*)(gImage_icon_SC3000);
+		}
+		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "mda")) { //Sharp X68000 music
+			icon = (u16*)(gImage_icon_wav);
 		}
 		else 
 		{
@@ -1476,6 +1624,97 @@ void ShowTime(u32 page_num ,u32 page_mode)
 	DrawHZText12(msgtime,0,120,3,gl_color_text,1);
 }
 //---------------------------------------------------------------
+void IWRAM_CODE make_pogoshell_arguments(TCHAR *cmdname, TCHAR *filename, u32 cmdsize, u32 filesize, u32 Address, u32 offset)
+{
+	u32 *p, addr;
+	char *ptr, *cmdptr, *fileptr;
+	int i = 0;
+
+	addr = 0x08000000 + cmdsize;
+
+	p = (u32 *)(0x02000000+255*1024);
+
+	p[0] = 0xFAB0BABE; //magic value in IWRAM
+
+	ptr = (char *)&p[2];
+	*ptr++ = '/';
+	cmdptr = ptr;
+
+	if (strlen(cmdname) > 31) {
+		TCHAR *ext = strrchr(cmdname, '.');
+		if (!ext) {
+			memcpy(ptr,cmdname,31);
+			ptr[31]='\0';
+		} else {
+			if (strlen(ext) > 31) {
+				memcpy(ptr,ext,31);
+				ptr[31]='\0';
+			} else {
+				int extlen=strlen(ext);
+				memcpy(ptr,cmdname,31-extlen);
+				memcpy(ptr+31-extlen,ext,extlen+1);
+			}
+		}
+	} else
+		strcpy(ptr, cmdname);
+
+	ptr += (strlen(ptr)+1);
+
+	*ptr++ = '/';
+	fileptr = ptr;
+
+	if (strlen(filename) > 31) {
+		TCHAR *ext = strrchr(filename, '.');
+		if (!ext) {
+			memcpy(ptr,filename,31);
+			ptr[31]='\0';
+		} else {
+			if (strlen(ext) > 31) {
+				memcpy(ptr,ext,31);
+				ptr[31]='\0';
+			} else {
+				int extlen=strlen(ext);
+				memcpy(ptr,filename,31-extlen);
+				memcpy(ptr+31-extlen,ext,extlen+1);
+			}
+		}
+	} else
+		strcpy(ptr, filename);
+
+	ptr += (strlen(ptr)+1);
+
+	*ptr++ = '\0';
+
+	p[1] = 2; // argc
+
+	p[-1] = addr; //addr of file
+	p[-2] = filesize;
+
+	// Make fake Pogoshell filesize
+	//
+	// Passed in 32KB aligned
+	offset = offset + 0x08000000 + 8;
+
+	p = pReadCache;
+
+	// Magic value in ROM address space
+	*p++ = 0xFAB0BABE;
+	*p++ = (2*(32+4+4)) | 0x80000000;
+
+	memcpy(p, cmdptr, 32);
+	p+=32/4;
+	*p++ = cmdsize;
+	*p++ = 0x08000000 - offset;
+
+	memcpy(p, fileptr, 32);
+
+	p+=32/4;
+	*p++ = filesize;
+	*p++ = addr - offset;
+
+	dmaCopy((void*)pReadCache,PSRAMBase_S98 + Address, 0x58);
+}
+
 u32 IWRAM_CODE LoadEMU2PSRAM(TCHAR *filename,u32 is_EMU)
 {
 	UINT  ret;
@@ -1503,7 +1742,42 @@ u32 IWRAM_CODE LoadEMU2PSRAM(TCHAR *filename,u32 is_EMU)
 			rom_start_address = pocketnes_gba_size+0x30;
 			break;
 		default:
-			break;	
+			res = f_open(&gfile, plugin, FA_READ);
+			if(res != FR_OK)
+				return 1;
+
+			filesize = f_size(&gfile);
+
+			f_lseek(&gfile, 0x0000);
+			for(blocknum=0x0000;blocknum<filesize;blocknum+=0x20000)
+			{		
+				sprintf(msg,"%luMb",(blocknum)/0x20000);
+				Clear(78+54,160-15,110,15,gl_color_cheat_black,1);
+				DrawHZText12(msg,0,78+54,160-15,gl_color_text,1);
+				//f_lseek(&gfile, blocknum);
+				if (filesize-blocknum*0x20000 < 0x20000)
+					memset(pReadCache, 0, 0x20000);
+				f_read(&gfile, pReadCache, 0x20000, &ret);//pReadCache max 0x20000 Byte
+				page = 0;
+						
+				Address=blocknum;
+				while(Address>=0x400000)
+				{
+					Address-=0x400000;
+					page+=0x800;
+				}
+				SetPSRampage(page);
+				dmaCopy((void*)pReadCache,PSRAMBase_S98 + Address, 0x20000);
+			
+			}
+			f_close(&gfile);
+			SetPSRampage(0);
+			blockoffset=blocknum;
+
+			// Guarantee word alignment
+			rom_start_address = (filesize+3)&~3;
+
+			break;		
 	}
 	
 	res = f_open(&gfile, filename, FA_READ);
@@ -1551,6 +1825,20 @@ u32 IWRAM_CODE LoadEMU2PSRAM(TCHAR *filename,u32 is_EMU)
 			page = 0;
 		}
 		f_close(&gfile);
+
+		if (is_EMU > 3) {
+			Address = rom_start_address + filesize;
+		      	Address = (Address + 0x7fff)&~0x7fff;
+			u32 offset = Address;
+			while(Address>=0x400000)
+			{
+				Address-=0x400000;
+				page+=0x800;
+			}
+			SetPSRampage(page);
+			make_pogoshell_arguments(plugin + 9, filename, rom_start_address, filesize, Address, offset);
+		}
+
 		SetPSRampage(0);
 		return 0;
 	}

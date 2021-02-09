@@ -48,24 +48,6 @@
 
 
 
-u16 gl_color_selected = RGB(00, 20, 26);
-#ifdef DARK
-u16 gl_color_text = RGB(31, 31, 31);
-u16 gl_color_selectBG_sd = RGB(15, 15, 31);
-u16 gl_color_selectBG_nor = RGB(18, 3, 3);
-u16 gl_color_MENU_btn = RGB(00, 19, 29);
-#else
-u16 gl_color_text = RGB(00, 00, 00);
-u16 gl_color_selectBG_sd = RGB(19, 19, 31);
-u16 gl_color_selectBG_nor = RGB(15, 28, 7);
-u16 gl_color_MENU_btn = RGB(23, 23, 23);
-#endif
-u16 gl_color_cheat_count = RGB(00, 31, 00);
-u16 gl_color_cheat_black = RGB(00, 00, 00);
-u16 gl_color_NORFULL = RGB(31, 00, 00);
-u16 gl_color_btn_clean = RGB(8, 8, 31);
-
-
 
 
 
@@ -99,3 +81,14 @@ u16 gl_color_btn_clean = RGB(8, 8, 31);
 
 #define newomega_top_bin_size  0x536d0//0x534A8//0x535bc////
 #define newomega_top_bin_address (void*)0x08195000
+
+extern const unsigned char gImage_English_manual[9800]__attribute__((aligned(4)));
+extern const unsigned char gImage_Chinese_manual[9800]__attribute__((aligned(4)));
+extern const unsigned char gImage_HELP[76800]__attribute__((aligned(4)));
+extern const unsigned char gImage_icons[1344]__attribute__((aligned(4)));
+extern const unsigned char gImage_MENU[28160]__attribute__((aligned(4)));
+extern const unsigned char gImage_NOR[76800]__attribute__((aligned(4)));
+extern const unsigned char gImage_RECENTLY[76800]__attribute__((aligned(4)));
+extern const unsigned char gImage_SD[76800]__attribute__((aligned(4)));
+extern const unsigned char gImage_SET[76800]__attribute__((aligned(4)));
+extern const unsigned char gImage_SET2[76800]__attribute__((aligned(4)));

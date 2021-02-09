@@ -22,6 +22,6 @@ pause
 exit
 :make_config
 (
-Echo Skin_Folder=..\source\images\dark
-Echo Image_Folder=..\source\images
+Echo Skin_Folder=..\images\dark
+Echo Image_Folder=..\images
 )>Config.ini
