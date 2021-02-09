@@ -308,7 +308,7 @@ void Show_ICON_filename_SD(u32 show_offset,u32 file_select,u32 haveThumbnail)
 			icon = (u16*)(gImage_icon_gba/*gImage_icons+1*16*14*2*/);
 		}	
 		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "agb")) { //GBA
-			icon = (u16*)(gImage_icons + 1 * 16 * 14 * 2);
+			icon = (u16*)(gImage_icon_gba/*gImage_icons+1*16*14*2*/);
 		}
 		else if(!strcasecmp(&(pfilename[strlen8-3]), "gbc"))
 		{
@@ -362,7 +362,7 @@ void Show_ICON_filename_SD(u32 show_offset,u32 file_select,u32 haveThumbnail)
 			icon = (u16*)(gImage_icon_TXT);
 		}
 		else if (!strcasecmp(&(pfilename[strlen8 - 3]), "esv")) { //Fixes the bug with esv files looking like watara supervision
-			icon = (u16*)(gImage_icons + 2 * 16 * 14 * 2);
+			icon = (u16*)(gImage_icon_other/*gImage_icons+2*16*14*2*/);
 		}
 		else if (!strcasecmp(&(pfilename[strlen8 - 2]), "sv")) { //Watara Supervision
 			icon = (u16*)(gImage_icon_SV);
@@ -1720,7 +1720,7 @@ u32 IWRAM_CODE LoadEMU2PSRAM(TCHAR *filename,u32 is_EMU)
 	UINT  ret;
 	u32 filesize;
 	u32 res;
-	u32 blocknum;
+	u32 blocknum, blockoffset = gl_error_0;
 	char msg[20];
 	
 	u32 Address;
@@ -1971,28 +1971,52 @@ void SD_list_L_START(u32 show_offset,u32 file_select,u32 folder_total)
 //---------------------------------------------------------------------------------
 u32 Check_file_type(TCHAR *pfilename)
 {
-	u32 strlen8 = strlen(pfilename) ;
+	u32 res;	
+	TCHAR *ext = strrchr(pfilename, '.');
+	TCHAR *p;
+	
+
+	if (!ext)
+		return 0xff;
+
+	ext++;
+
+	sprintf(plugin, "/SYSTEM/PLUG/%s.bin", ext);
+	res = f_stat(plugin, NULL);
+	if(res == FR_OK)
+		return 4;
+	sprintf(plugin, "/SYSTEM/PLUG/%s.gba", ext);
+	res = f_stat(plugin, NULL);
+	if(res == FR_OK)
+		return 5;
+	sprintf(plugin, "/SYSTEM/PLUG/%s.mb", ext);
+	res = f_stat(plugin, NULL);
+	if(res == FR_OK)
+		return 6;
+	sprintf(plugin, "/SYSTEM/PLUG/%s.mbz", ext);
+	res = f_stat(plugin, NULL);
+	if(res == FR_OK)
+		return 7;
+
 	//u32 is_EMU;
-	if(!strcasecmp(&(pfilename[strlen8-3]), "gba"))
+	if(!strcasecmp(ext, "gba"))
 	{
 		return 0;
 	}	
-	else if(!strcasecmp(&(pfilename[strlen8-3]), "gbc"))
+	else if(!strcasecmp(ext, "gbc"))
 	{
-    return 1;
+		return 1;
 	}
-	else if(!strcasecmp(&(pfilename[strlen8-2]), "gb"))
+	else if(!strcasecmp(ext, "gb"))
 	{
-    return 2;
+		return 2;
 	}
-	else if(!strcasecmp(&(pfilename[strlen8-3]), "nes"))
+	else if(!strcasecmp(ext, "nes"))
 	{
-    return 3;
+		return 3;
 	}
-	else 
-	{
-		return 0xff;
-	}	
+
+	return 0xff;
 }
 //---------------------------------------------------------------------------------
 void Show_error_num(u8 error_num)
@@ -3197,7 +3221,10 @@ re_show_menu:
 		Send_FATbuffer(FAT_table_buffer,1);
 							
 		res=LoadEMU2PSRAM(pfilename,is_EMU);
-		SetRompageWithHardReset(0x200,key_L);
+			int bootmode=(is_EMU > 3) ?
+					((is_EMU == 6) ? 2
+				       : ((is_EMU == 7) ? 4 : 3)) : key_L;
+		SetRompageWithHardReset(0x200,bootmode);
 		while(1);
 	}		
 	else {	//gba file

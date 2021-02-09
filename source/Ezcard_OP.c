@@ -19,7 +19,7 @@ extern u32 FAT_table_buffer[FAT_table_size/4]EWRAM_BSS;
 extern FIL gfile;
 // --------------------------------------------------------------------
 extern void HardReset(void);
-extern void SoftReset_now(void);
+extern void SoftReset_now(u8 a, u8 b);
 
 // --------------------------------------------------------------------
 void IWRAM_CODE SetSDControl(u16  control)
@@ -255,12 +255,34 @@ void IWRAM_CODE SetRompageWithHardReset(u16 page,u32 bootmode)
 {
 	Set_RTC_status(gl_ingame_RTC_open_status);
 	SetRompage(page);
-	RegisterRamReset(RESET_EWRAM|RESET_PALETTE| RESET_VRAM|RESET_OAM |RESET_SIO | RESET_SOUND | RESET_OTHER);
-	if(bootmode==1){
+
+	if(bootmode==1) {
 		HardReset();
+	} else if (bootmode==2 || bootmode==4) {
+		int i;
+		//Clear exram up to pogoshell arg
+		u32 *p = (u32*)(0x02000000);
+		for(i=0;i<0xfefe;i++)
+			p[i]=0;
+		// Copy plugin to EWRAM using pogoshell arg's size
+		if (bootmode==2)
+			dmaCopy((u8*)(0x08000000),(u8*)(0x02000000), *(u32 *)(0x0203fbfc) & 0x7ffffff);
+		else if (bootmode==4)
+			LZ77UnCompWram((u8*)(0x08000000),(u8*)(0x02000000));
+		RegisterRamReset(0xfc);
+		((void(*)(void))0x02000000)();
 	}
-	else{
-		SoftReset_now();
+	else if (bootmode == 3) {
+		int i;
+		//Clear exram up to pogoshell arg
+		u32 *p = (u32*)(0x02000000);
+		for(i=0;i<0xfefe;i++)
+			p[i]=0;
+		//SoftReset_now(0,0x100);
+		SoftReset_now(0,0xfe);
+	}
+	else {
+		SoftReset_now(0,0xff);
 	}
 }
 // --------------------------------------------------------------------
