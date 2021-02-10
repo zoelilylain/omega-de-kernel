@@ -82,6 +82,7 @@
 #include "goomba.h"
 #include "pocketnes.h"
 
+u32 list_game_total;
 
 
 FM_FILE_FS pFilename_buffer[MAX_files]EWRAM_BSS;
@@ -2643,7 +2644,6 @@ re_showfile:
 			u16 keys_released = keysUp();
 			u16 keysrepeat = keysDownRepeat();
 
-			u32 list_game_total;
 			if(page_num==NOR_list)
 			{
 				list_game_total = game_total_NOR;
