@@ -1,6 +1,6 @@
 #include <gba_base.h>
 
-#define DARK
+#define LIGHT
 
 extern int current_y;
 void Clear(u16 x, u16 y, u16 w, u16 h, u16 c, u8 isDrawDirect);

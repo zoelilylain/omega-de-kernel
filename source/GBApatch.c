@@ -905,8 +905,8 @@ u32 Check_RTS(TCHAR* gamefilename)
 	rtsnamebuf[len-2] = 't';
 	rtsnamebuf[len-1] = 's';	
 	
-	res = f_mkdir("/RTS");
-	res=f_chdir("/RTS");
+	res = f_mkdir("/SYSTEM/RTS");
+	res=f_chdir("/SYSTEM/RTS");
 	if(res != FR_OK){
 		return 0;
 	}
