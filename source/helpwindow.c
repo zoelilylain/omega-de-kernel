@@ -38,7 +38,7 @@ void Show_help_window()
 	DrawHZText12("Start  :",0,3,20, gl_color_selected,1);
 		DrawHZText12(gl_START_help,0,52,20, gl_color_text,1);
 		
-	DrawHZText12("Sekect :",0,3,35, gl_color_selected,1);
+	DrawHZText12("Select :",0,3,35, gl_color_selected,1);
 		DrawHZText12(gl_SELECT_help,0,52,35, gl_color_text,1);
 		
 	DrawHZText12("L + A  :",0,3,50, gl_color_selected,1);
