@@ -13,6 +13,14 @@
 #include "draw.h"
 #include "Ezcard_OP.h"
 
+//#include "fw.h"
+
+#include "lang.h"
+
+const u32 image_bin_size2=952016;
+
+
+extern unsigned char ASC_DATA_OLD[];
 
 extern u32 FAT_table_buffer[FAT_table_size/4]EWRAM_BSS;
 
@@ -490,6 +498,7 @@ void IWRAM_CODE Set_64MROM_flag(u16  flag)
 
 void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 {
+	ASC_DATA = ASC_DATA_OLD;
 	vu16 busy;
 	vu32 offset;
 	u32 offset_Y = 5;
@@ -502,10 +511,12 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 	sprintf(msg,"FIRMWARE UPDATE");
 	DrawHZText12(msg,0,75,offset_Y+0*line_x, 0x7FFF,1);	
 	
-	u32 get_crc32 = crc32( newomega_top_bin_address, newomega_top_bin_size);
+	//u32 get_crc32 = crc32( image, image_bin_size2);
 	//DEBUG_printf("get_crc32 %x ",get_crc32);
 	
-	if(get_crc32 != 0x480D0853) //fw1 
+	//if(get_crc32 != 0x480D0853) //fw1 
+	//if(get_crc32 != 0xA07D712F) //fw2
+	/*if(get_crc32 != 0x3DA3D970) //fw3
 	{
 			sprintf(msg,"CRC32 checksum error!");		
 			DrawHZText12(msg,0,2,offset_Y+1*line_x, RGB(31,00,00),1);
@@ -522,18 +533,19 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 					return;
 				}
 			}		
-	}
+	}*/
 
 	sprintf(msg,"Current firmware version: V%02d",Current_FW_ver);
 	DrawHZText12(msg,0,2,offset_Y+1*line_x, 0x7FFF,1);	
 	
-	sprintf(msg,"Will be updated to version: V%02d",Built_in_ver);
-	DrawHZText12(msg,0,2,offset_Y+2*line_x, 0x7FFF,1);	
+	sprintf(msg,"Please use the OFFICIAl kernel to",Built_in_ver);
+	DrawHZText12(msg,0,2,offset_Y+3*line_x, 0x7FFF,1);	
 
-	sprintf(msg,"Press (A) to update");
-	DrawHZText12(msg,0,2,offset_Y+4*line_x, 0x7FFF,1);	
-	sprintf(msg,"Press (B) to cancel");
-	DrawHZText12(msg,0,2,offset_Y+5*line_x, 0x7FFF,1);	
+	sprintf(msg,"update firmware. Sorry.",Built_in_ver);
+	DrawHZText12(msg,0,2,offset_Y+4*line_x, 0x7FFF,1);
+	
+	sprintf(msg,"Press (B) to skip.",Built_in_ver);
+	DrawHZText12(msg,0,2,offset_Y+6*line_x, 0x7FFF,1);	
 	
 	while(1)
 	{
@@ -543,6 +555,7 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 		u16 keys = keysDown();
 				
 		if (keys & KEY_A) {
+			/*
 			SPI_Write_Disable();
 			Clear(2, offset_Y+4*line_x,220,15,RGB(0,18,24),1);	
 			Clear(2, offset_Y+5*line_x,220,15,RGB(0,18,24),1);	
@@ -577,6 +590,7 @@ void IWRAM_CODE Check_FW_update(u16 Current_FW_ver,u16 Built_in_ver)
 			
 			while(1);
 			break;
+			*/
 		}	
 		else if (keys & KEY_B) {
 			break;

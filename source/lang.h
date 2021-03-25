@@ -1,7 +1,6 @@
 #ifndef _LANG_H
 #define _LANG_H
 
-
 extern char* gl_init_error;
 extern char* gl_power_off;
 extern char* gl_init_ok;
