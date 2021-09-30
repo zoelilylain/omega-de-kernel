@@ -1832,7 +1832,7 @@ u32 IWRAM_CODE LoadEMU2PSRAM(TCHAR *filename,u32 is_EMU)
 
 			
 		Clear(60,160-15,120,15,gl_color_cheat_black,1);	
-		DrawHZText12(gl_writing,0,78,160-15,gl_color_text,1);	
+		DrawHZText12(gl_writing,0,78,160-15,0x7fff,1);	
 
 		f_lseek(&gfile, 0x0000);
 		ShowbootProgress(gl_generating_emu);
