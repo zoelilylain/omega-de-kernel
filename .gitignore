@@ -3,3 +3,5 @@ emusrc/build
 *.elf
 build
 *.bin
+source/lang.c.bak
+jagoombacolor-master/src/ui.c.bak
