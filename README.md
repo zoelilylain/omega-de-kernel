@@ -1,7 +1,7 @@
-FORKED FROM https://github.com/ez-flash/omega-de-kernel
+###### FORKED FROM https://github.com/ez-flash/omega-de-kernel
 
 # SimpleLight for EZ Flash Omega Definitive Edition
-( If you're looking for SimpleLight for the original EZ Flash Omega, check here: https://github.com/Sterophonick/SimpleLight )
+###### *If you're looking for SimpleLight for the **original** EZ Flash Omega, check here: https://github.com/Sterophonick/SimpleLight*
 
 Hello all!
 
@@ -20,7 +20,7 @@ https://gbatemp.net/threads/new-theme-for-ez-flash-omega.520665/
 
 ## Installation instructions:
 
-_**Follow the installation instructions in the !!!!!!!!!IMPORTANT!!!!!!!!!!!.TXT file in the GBAtemp package before reporting issues.**_
+_**Be sure you're using the most recent version, and follow the installation instructions in the !!!!!!!!!IMPORTANT!!!!!!!!!!!.TXT file in the GBAtemp package before reporting issues.**_
 
 _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT APPLY TO THE BASE OMEGA :(**_
 
@@ -36,11 +36,11 @@ _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT A
     .bin - GBA ROM
     .mb - GBA Multiboot ROM
     .agb - GBA ROM
-    .col - ColecoVision ROM (Requires Cologne) \*
+    .col - ColecoVision ROM (Requires Cologne) *
     .gb - Game Boy ROM (Goomba Color)
     .gbc - Game Boy Color ROM (Goomba Color)
     .gg - Game Gear ROM (SMSAdvance)
-    .rom - MSX Cartridge ROM (MSXAdvance) \*\*
+    .rom - MSX Cartridge ROM (MSXAdvance) **
     .ngp - Neo Geo Pocket ROM (NGPAdvance)
     .ngc - Neo Geo Pocket ROM (NGPAdvance)
     .ngpc - Neo Geo Pocket Color ROM (NGPAdvance)
@@ -77,7 +77,7 @@ _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT A
     .mda - Sharp X68000 Music
     .cwz - CWZ Music (IDK what exactly it is, but it was included with PogoShell 1.2)
 
-*\* For cologne, you have to make the ROM yourself.*
+*\* For cologne, you have to make the ROM yourself.*\
 *\*\* MSXAdvance uses the C-BIOS, so I can redistribute the emulator.*
 
 ##### Cologne Emulator Guide:
@@ -86,8 +86,20 @@ _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT A
 3. Take a blank file, and also add the Official Colecovision BIOS.
 4. Create col.gba in the PLUG folder.
 
+### This ZIP file contains some tech demos/games:
+* XBill (SG-1000)
+* Sega Tween (SMS)
+* WinGG (Game Gear)
+* HuZERO (PC-Engine)
+* 1968 (ZX-Spectrum)
+* Adventures Of Gus and Rob (Neo Geo Pocket)
+* Kaboom! (Homebrew) (ColecoVision)
+* Motkonque (MSX)
+* SwanDriving (WonderSwan)
+* F8Z (Chip-8)
+
 ### How to build 
-1. Install devkitPro
+1. Install [devkitPro](https://devkitpro.org/)
 2. Set the following environment variables to their correct directories: `DEVKITPRO, DEVKITARM, LIBGBA`
 3. Comment or uncomment the `#define DARK` line in `draw.h`. If uncommented, a dark theme is generated.
 4. Run the command `make`. If done successfully, this should give you an `ezkernel.bin` file.
@@ -95,28 +107,16 @@ _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT A
 4. Update your flashcart and enjoy! :)
 
 ### Special Greetz & Contributors:
-Sasq
-
-Moonlight
-
-Kuwanger
-
-veikkos
-
-DarkFader
-
-CoolHJ
-
-Let's Emu!
-
-Izder456
-
-NuVanDibe
-
-SLKun
-
-Mintmoon
-
-hitsgamer
-
+Sasq\
+Moonlight\
+Kuwanger\
+veikkos\
+DarkFader\
+CoolHJ\
+Let's Emu!\
+Izder456\
+NuVanDibe\
+SLKun\
+Mintmoon\
+hitsgamer\
 Rocky5
