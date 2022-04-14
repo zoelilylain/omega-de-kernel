@@ -37,8 +37,8 @@ _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT A
     .mb - GBA Multiboot ROM
     .agb - GBA ROM
     .col - ColecoVision ROM (Requires Cologne) *
-    .gb - Game Boy ROM (Goomba Color)
-    .gbc - Game Boy Color ROM (Goomba Color)
+    .gb - Game Boy ROM (Jaga's Goomba Color)
+    .gbc - Game Boy Color ROM (Jaga's Goomba Color)
     .gg - Game Gear ROM (SMSAdvance)
     .rom - MSX Cartridge ROM (MSXAdvance) **
     .ngp - Neo Geo Pocket ROM (NGPAdvance)
@@ -77,7 +77,7 @@ _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT A
     .mda - Sharp X68000 Music
     .cwz - CWZ Music (IDK what exactly it is, but it was included with PogoShell 1.2)
 
-*\* For cologne, you have to make the ROM yourself.*\
+*\* For Cologne, you have to make the ROM yourself.*\
 *\*\* MSXAdvance uses the C-BIOS, so I can redistribute the emulator.*
 
 ##### Cologne Emulator Guide:
@@ -120,3 +120,11 @@ SLKun\
 Mintmoon\
 hitsgamer\
 Rocky5
+
+### Credits
+[EZ-FLASH](https://www.ezflash.cn/) - The original firmware & hardware creators
+Kuwanger - PogoShell plugin integration
+Sterophonick - SIMPLE theme for EZO & EZODE
+fluBBa - SMSAdvance, MSXAdvance, Cologne for GBA, Goomba for GBA (Original), PCEAdvance, PocketNES, SNESAdvance, Wasabi, NGPAdvance, SwanAdvance
+[Jaga](https://github.com/EvilJagaGenius) - [Jaga's Goomba Color fork](https://github.com/EvilJagaGenius/jagoombacolor)
+...and others!
