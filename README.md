@@ -32,6 +32,11 @@ _**ALSO YOU MUST USE THE OFFICIAL KERNEL TO UPDATE THE FIRMWARE; THIS DOES NOT A
 
 ## Registered file types:
 ### Game ROMs
+    .a26 - Atari 2600 (No Emulator Yet)
+    .min - Pokemon Mini (No Emulator Yet)
+    .dci - Sega Dreamcast VMU (No Emulator Yet)
+    .vmi - Sega Dreamcast VMU (No Emulator Yet)
+    .o2 - Magnavox Odessey 2 (No Emulator Yet)
     .gba - GBA ROM
     .bin - GBA ROM
     .mb - GBA Multiboot ROM
