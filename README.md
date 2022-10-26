@@ -129,7 +129,8 @@ hitsgamer\
 Rocky5
 
 ### Helpful Links
-- https://github.com/jeresch/update_ezflash_cheats  
+- [Sync EZFlash Cheat Dat with libretro's](https://github.com/jeresch/update_ezflash_cheats)\
+- [Boktai Solar Sensor Patch Kit](https://gbatemp.net/threads/boktai-solar-sensor-patch-kit.245127)\ 
 
 ### Credits
 [EZ-FLASH](https://www.ezflash.cn/) - The original firmware & hardware creators\
