@@ -131,7 +131,7 @@ Rocky5
 ### Helpful Links
 - [Sync EZFlash Cheat Dat with libretro's](https://github.com/jeresch/update_ezflash_cheats)\
 - [Boktai Solar Sensor Patch Kit](https://gbatemp.net/threads/boktai-solar-sensor-patch-kit.245127)\ 
-
+- [EZFlash Product Basic Repair Guides](https://gbatemp.net/threads/basic-repair-guide-of-current-ez-flash-products.601332)\
 ### Credits
 [EZ-FLASH](https://www.ezflash.cn/) - The original firmware & hardware creators\
 Kuwanger - PogoShell plugin integration\
